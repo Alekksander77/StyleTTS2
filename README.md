@@ -49,6 +49,14 @@ python webui.py
 ```
 The UI allows you to prepare a dataset list, start training and run simple inference from your browser.
 
+## Docker
+You can run the Web UI inside a container:
+```bash
+docker build -t styletts2 .
+docker run -p 7860:7860 styletts2
+```
+The server will be available on port `7860`.
+
 ## Training
 First stage training:
 ```bash
