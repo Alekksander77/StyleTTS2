@@ -15,20 +15,20 @@ import warnings
 warnings.simplefilter('ignore')
 from torch.utils.tensorboard import SummaryWriter
 
-from meldataset import build_dataloader
+from styletts2.meldataset import build_dataloader
 
 from Utils.ASR.models import ASRCNN
 from Utils.JDC.model import JDCNet
 from Utils.PLBERT.util import load_plbert
 
-from models import *
-from losses import *
-from utils import *
+from styletts2.models import *
+from styletts2.losses import *
+from styletts2.utils import *
 
 from Modules.slmadv import SLMAdversarialLoss
 from Modules.diffusion.sampler import DiffusionSampler, ADPM2Sampler, KarrasSchedule
 
-from optimizers import build_optimizer
+from styletts2.optimizers import build_optimizer
 
 from accelerate import Accelerator
 
