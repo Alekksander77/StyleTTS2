@@ -21,11 +21,11 @@ import torch.nn.functional as F
 import torchaudio
 import librosa
 
-from models import *
-from meldataset import build_dataloader
-from utils import *
-from losses import *
-from optimizers import build_optimizer
+from styletts2.models import *
+from styletts2.meldataset import build_dataloader
+from styletts2.utils import *
+from styletts2.losses import *
+from styletts2.optimizers import build_optimizer
 import time
 
 from accelerate import Accelerator

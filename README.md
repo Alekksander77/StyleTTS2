@@ -17,7 +17,7 @@ Online demo: [Hugging Face](https://huggingface.co/spaces/styletts2/styletts2) (
 - [x] Test training code for multi-speaker models (VCTK and LibriTTS)
 - [x] Finish demo code for multispeaker model and upload pre-trained models
 - [x] Add a finetuning script for new speakers with base pre-trained multispeaker models
-- [ ] Fix DDP (accelerator) for `train_second.py` **(I have tried everything I could to fix this but had no success, so if you are willing to help, please see [#7](https://github.com/yl4579/StyleTTS2/issues/7))**
+- [ ] Fix DDP (accelerator) for `styletts2/train/second_stage.py` **(I have tried everything I could to fix this but had no success, so if you are willing to help, please see [#7](https://github.com/yl4579/StyleTTS2/issues/7))**
 
 ## Pre-requisites
 1. Python >= 3.7
@@ -45,11 +45,11 @@ For LibriTTS, you will need to combine train-clean-360 with train-clean-100 and 
 ## Training
 First stage training:
 ```bash
-accelerate launch train_first.py --config_path ./Configs/config.yml
+accelerate launch styletts2/train/first_stage.py --config_path ./Configs/config.yml
 ```
 Second stage training **(DDP version not working, so the current version uses DP, again see [#7](https://github.com/yl4579/StyleTTS2/issues/7) if you want to help)**:
 ```bash
-python train_second.py --config_path ./Configs/config.yml
+python styletts2/train/second_stage.py --config_path ./Configs/config.yml
 ```
 You can run both consecutively and it will train both the first and second stages. The model will be saved in the format "epoch_1st_%05d.pth" and "epoch_2nd_%05d.pth". Checkpoints and Tensorboard logs will be saved at `log_dir`. 
 
@@ -75,15 +75,15 @@ In [Utils](https://github.com/yl4579/StyleTTS2/tree/main/Utils) folder, there ar
 - **Non-English dataset**: You can train on any language you want, but you will need to use a pre-trained PL-BERT model for that language. We have a pre-trained [multilingual PL-BERT](https://huggingface.co/papercup-ai/multilingual-pl-bert) that supports 14 languages. You may refer to [yl4579/StyleTTS#10](https://github.com/yl4579/StyleTTS/issues/10) and [#70](https://github.com/yl4579/StyleTTS2/issues/70) for some examples to train on Chinese datasets. 
 
 ## Finetuning
-The script is modified from `train_second.py` which uses DP, as DDP does not work for `train_second.py`. Please see the bold section above if you are willing to help with this problem. 
+The script is modified from `styletts2/train/second_stage.py` which uses DP, as DDP does not work for `styletts2/train/second_stage.py`. Please see the bold section above if you are willing to help with this problem. 
 ```bash
-python train_finetune.py --config_path ./Configs/config_ft.yml
+python styletts2/train/finetune.py --config_path ./Configs/config_ft.yml
 ```
 Please make sure you have the LibriTTS checkpoint downloaded and unzipped under the folder. The default configuration `config_ft.yml` finetunes on LJSpeech with 1 hour of speech data (around 1k samples) for 50 epochs. This took about 4 hours to finish on four NVidia A100. The quality is slightly worse (similar to NaturalSpeech on LJSpeech) than LJSpeech model trained from scratch with 24 hours of speech data, which took around 2.5 days to finish on four A100. The samples can be found at [#65 (comment)](https://github.com/yl4579/StyleTTS2/discussions/65#discussioncomment-7668393). 
 
 If you are using a **single GPU** (because the script doesn't work with DDP) and want to save training speed and VRAM, you can do (thank [@korakoe](https://github.com/korakoe) for making the script at [#100](https://github.com/yl4579/StyleTTS2/pull/100)):
 ```bash
-accelerate launch --mixed_precision=fp16 --num_processes=1 train_finetune_accelerate.py --config_path ./Configs/config_ft.yml
+accelerate launch --mixed_precision=fp16 --num_processes=1 styletts2/train/finetune_accelerate.py --config_path ./Configs/config_ft.yml
 ```
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yl4579/StyleTTS2/blob/main/Colab/StyleTTS2_Finetune_Demo.ipynb)
 
