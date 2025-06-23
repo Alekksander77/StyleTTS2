@@ -39,8 +39,15 @@ Also install phonemizer and espeak if you want to run the demo:
 pip install phonemizer
 sudo apt-get install espeak-ng
 ```
-4. Download and extract the [LJSpeech dataset](https://keithito.com/LJ-Speech-Dataset/), unzip to the data folder and upsample the data to 24 kHz. The text aligner and pitch extractor are pre-trained on 24 kHz data, but you can easily change the preprocessing and re-train them using your own preprocessing. 
+4. Download and extract the [LJSpeech dataset](https://keithito.com/LJ-Speech-Dataset/), unzip to the data folder and upsample the data to 24 kHz. The text aligner and pitch extractor are pre-trained on 24 kHz data, but you can easily change the preprocessing and re-train them using your own preprocessing.
 For LibriTTS, you will need to combine train-clean-360 with train-clean-100 and rename the folder train-clean-460 (see [val_list_libritts.txt](https://github.com/yl4579/StyleTTS/blob/main/Data/val_list_libritts.txt) as an example).
+
+## Web UI
+A lightweight web interface is available for common tasks:
+```bash
+python webui.py
+```
+The UI allows you to prepare a dataset list, start training and run simple inference from your browser.
 
 ## Training
 First stage training:
